@@ -219,6 +219,7 @@ projects {
           }
 
           println '*********************************************************************'
+          println osPluginName
           println scriptHash
           println styleHash
           println '*********************************************************************'
