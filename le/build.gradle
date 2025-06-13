@@ -218,18 +218,13 @@ projects {
             }
           }
 
-          println '*********************************************************************'
-          println osPluginName
-          println scriptHash
-          println styleHash
-          println '*********************************************************************'
           filter(ReplaceTokens, tokens: [script_hash: scriptHash, style_hash: styleHash])
         }
 
-        from('./src/main/webapp/dist') {
+        from('./src/main/ui/dist') {
           include '**/**'
 
-          into 'META-INF/resources/' + osPluginName
+          into 'META-INF/resources/ui/' + osPluginName
         }
       }
     }
