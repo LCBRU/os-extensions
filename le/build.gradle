@@ -226,10 +226,10 @@ projects {
           filter(ReplaceTokens, tokens: [script_hash: scriptHash, style_hash: styleHash])
         }
 
-        from('./src/main/ui/dist') {
+        from('./src/main/webapp/dist') {
           include '**/**'
 
-          into 'META-INF/resources/ui/' + osPluginName
+          into 'META-INF/resources/' + osPluginName
         }
       }
     }
