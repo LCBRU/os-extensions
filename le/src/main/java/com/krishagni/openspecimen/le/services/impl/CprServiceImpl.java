@@ -25,8 +25,7 @@ import com.krishagni.catissueplus.core.common.service.LabelGenerator;
 import com.krishagni.openspecimen.le.events.BulkParticipantRegDetail;
 import com.krishagni.openspecimen.le.events.ParticipantRegDetail;
 import com.krishagni.openspecimen.le.services.CprService;
-// import jakarta.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 
 public class CprServiceImpl implements CprService {
 	
@@ -44,8 +43,8 @@ public class CprServiceImpl implements CprService {
 
 
 	@Override
-	@PlusTransactional
-	// @Transactional
+	// @PlusTransactional
+	@Transactional
 	public ResponseEvent<BulkParticipantRegDetail> registerParticipants(RequestEvent<BulkParticipantRegDetail> req) {		
 		try {
 			BulkParticipantRegDetail detail = req.getPayload();
