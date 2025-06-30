@@ -31,8 +31,8 @@ projects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
 
-  sourceCompatibility = 14
-  targetCompatibility = 14
+  sourceCompatibility = 16
+  targetCompatibility = 16
 
   repositories {
     mavenCentral()
