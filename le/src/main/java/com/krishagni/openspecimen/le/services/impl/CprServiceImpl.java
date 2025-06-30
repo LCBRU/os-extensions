@@ -25,7 +25,7 @@ import com.krishagni.catissueplus.core.common.service.LabelGenerator;
 import com.krishagni.openspecimen.le.events.BulkParticipantRegDetail;
 import com.krishagni.openspecimen.le.events.ParticipantRegDetail;
 import com.krishagni.openspecimen.le.services.CprService;
-import javax.transaction.Transactional
+import javax.transaction.Transactional;
 
 
 public class CprServiceImpl implements CprService {
