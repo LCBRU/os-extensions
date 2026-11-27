@@ -13,7 +13,6 @@ import com.krishagni.catissueplus.core.biospecimen.events.VisitSpecimenDetail;
 import com.krishagni.catissueplus.core.biospecimen.services.SpecimenService;
 import com.krishagni.catissueplus.core.biospecimen.services.VisitService;
 import com.krishagni.catissueplus.core.common.PlusTransactional;
-import com.krishagni.catissueplus.core.common.errors.OpenSpecimenException;
 import com.krishagni.catissueplus.core.common.events.RequestEvent;
 import com.krishagni.catissueplus.core.common.events.ResponseEvent;
 import com.krishagni.catissueplus.core.common.service.ConfigurationService;
@@ -65,35 +64,30 @@ public class SpecimenCollectionServiceImpl implements SpecimenCollectionService 
 	}
 
 	@Override
+	@Transactional
 	@PlusTransactional
 	public ResponseEvent<SpecimenAndFrozenEventDetail> collectChildSpecimens(RequestEvent<SpecimenAndFrozenEventDetail> req) {
-		try {
-			SpecimenAndFrozenEventDetail detail = req.getPayload();
+		SpecimenAndFrozenEventDetail detail = req.getPayload();
 
-			//
-			// Step 1: collect child specimens
-			//
-			RequestEvent<List<SpecimenDetail>> collectChildSpmnsReq = new RequestEvent<List<SpecimenDetail>>(detail.getSpecimens());
-			ResponseEvent<List<SpecimenDetail>> collectChildSpmnsResp = specimenSvc.collectSpecimens(collectChildSpmnsReq);
-			collectChildSpmnsResp.throwErrorIfUnsuccessful();
+		//
+		// Step 1: collect child specimens
+		//
+		RequestEvent<List<SpecimenDetail>> collectChildSpmnsReq = new RequestEvent<List<SpecimenDetail>>(detail.getSpecimens());
+		ResponseEvent<List<SpecimenDetail>> collectChildSpmnsResp = specimenSvc.collectSpecimens(collectChildSpmnsReq);
+		collectChildSpmnsResp.throwErrorIfUnsuccessful();
 
-			//
-			// Step 2: add frozen events
-			//
-			addFrozenEvents(getReqSpecimenIdMap(collectChildSpmnsResp.getPayload()), detail.getEvents());
+		//
+		// Step 2: add frozen events
+		//
+		addFrozenEvents(getReqSpecimenIdMap(collectChildSpmnsResp.getPayload()), detail.getEvents());
 
-			//
-			// Step 3: construct response
-			//
-			SpecimenAndFrozenEventDetail respDetail = new SpecimenAndFrozenEventDetail();
-			respDetail.setSpecimens(collectChildSpmnsResp.getPayload());
-			respDetail.setEvents(detail.getEvents());
-			return ResponseEvent.response(respDetail);
-		} catch (OpenSpecimenException ose) {
-			return ResponseEvent.error(ose);
-		} catch (Exception e) {
-			return ResponseEvent.serverError(e);
-		}
+		//
+		// Step 3: construct response
+		//
+		SpecimenAndFrozenEventDetail respDetail = new SpecimenAndFrozenEventDetail();
+		respDetail.setSpecimens(collectChildSpmnsResp.getPayload());
+		respDetail.setEvents(detail.getEvents());
+		return ResponseEvent.response(respDetail);
 	}
 
 	private Map<String, Long> getReqSpecimenIdMap(List<SpecimenDetail> specimens) {
