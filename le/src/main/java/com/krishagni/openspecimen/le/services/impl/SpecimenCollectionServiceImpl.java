@@ -65,7 +65,6 @@ public class SpecimenCollectionServiceImpl implements SpecimenCollectionService 
 	}
 
 	@Override
-	@Transactional
 	@PlusTransactional
 	public ResponseEvent<SpecimenAndFrozenEventDetail> collectChildSpecimens(RequestEvent<SpecimenAndFrozenEventDetail> req) {
 		try {
